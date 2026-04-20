@@ -16,8 +16,7 @@ if ( ! defined( 'SS_MS_SSO_HUB_SITE_ID' ) ) {
  * Load needed classes
  */
 $files_to_load = array(
-	'class-require-server-plugin.php',
-	'class-require-client-plugin.php',
+	'class-require-plugin.php',
 	'class-client-sites.php',
 );
 foreach ( $files_to_load as $file_name ) {
@@ -26,6 +25,9 @@ foreach ( $files_to_load as $file_name ) {
 		require_once $file;
 	}
 }
+
+Require_Plugin::register( 'wp-openid-connect-server/openid-connect-server.php', true );
+Require_Plugin::register( 'daggerhart-openid-connect-generic/openid-connect-generic.php', false );
 
 /**
  * Injects the missing email claim into the OIDC user info payload.

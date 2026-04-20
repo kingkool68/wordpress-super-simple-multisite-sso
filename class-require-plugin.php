@@ -1,13 +1,13 @@
 <?php
 
-class Require_Server_Plugin {
+class Require_Plugin {
 
 	/**
 	 * The plugin file to load.
 	 *
 	 * @var string
 	 */
-	private $plugin_file = 'wp-openid-connect-server/openid-connect-server.php';
+	private $plugin_file;
 
 	/**
 	 * The path to the plugin file.
@@ -17,19 +17,36 @@ class Require_Server_Plugin {
 	private $plugin_path;
 
 	/**
-	 * Get an instance of this class
+	 * Whether this plugin should only be active on the hub site.
+	 *
+	 * True = server plugin (hub only); false = client plugin (all other sites).
+	 *
+	 * @var bool
 	 */
-	public static function get_instance() {
-		static $instance = null;
-		if ( null === $instance ) {
-			$instance = new static();
-			$instance->setup();
-		}
-		return $instance;
+	private $hub_only;
+
+	/**
+	 * @param string $plugin_file Relative path to the plugin file.
+	 * @param bool   $hub_only    True loads the plugin only on the hub site; false loads it on all other sites.
+	 */
+	private function __construct( $plugin_file, $hub_only ) {
+		$this->plugin_file = $plugin_file;
+		$this->hub_only    = $hub_only;
 	}
 
 	/**
-	 * Constructor.
+	 * Register a plugin to be code-activated on either hub or non-hub sites.
+	 *
+	 * @param string $plugin_file Relative path to the plugin file.
+	 * @param bool   $hub_only    True loads the plugin only on the hub site; false loads it on all other sites.
+	 */
+	public static function register( $plugin_file, $hub_only ) {
+		$instance = new static( $plugin_file, $hub_only );
+		$instance->setup();
+	}
+
+	/**
+	 * Set up hooks.
 	 */
 	private function setup() {
 		$this->plugin_path = WP_PLUGIN_DIR . '/' . $this->plugin_file;
@@ -38,18 +55,27 @@ class Require_Server_Plugin {
 			return;
 		}
 
-		if ( static::is_hub_site() ) {
+		if ( $this->hub_only === static::is_hub_site() ) {
 			require_once $this->plugin_path;
 		}
 
-		add_filter( "network_admin_plugin_action_links_{$this->plugin_file}", array( $this, 'filter_code_activated_links' ) );
+		add_filter(
+			"network_admin_plugin_action_links_{$this->plugin_file}",
+			array( $this, 'filter_code_activated_links' )
+		);
 
-		if ( get_current_blog_id() === SS_MS_SSO_HUB_SITE_ID ) {
-			add_filter( "plugin_action_links_{$this->plugin_file}", array( $this, 'filter_code_activated_links' ) );
+		if ( $this->hub_only === static::is_hub_site() ) {
+			add_filter(
+				"plugin_action_links_{$this->plugin_file}",
+				array( $this, 'filter_code_activated_links' )
+			);
 		} else {
-			// Prevent activation on non-hub sites.
-			add_filter( "plugin_action_links_{$this->plugin_file}", array( $this, 'filter_prevent_activation_links' ) );
+			add_filter(
+				"plugin_action_links_{$this->plugin_file}",
+				array( $this, 'filter_prevent_activation_links' )
+			);
 		}
+
 		add_filter( 'option_active_plugins', array( $this, 'filter_active_plugins' ) );
 		add_filter( 'site_option_active_sitewide_plugins', array( $this, 'filter_active_plugins' ) );
 		add_filter( 'pre_update_option_active_plugins', array( $this, 'filter_prevent_activation_save' ) );
@@ -62,20 +88,36 @@ class Require_Server_Plugin {
 	 * @param array $actions Plugin action links.
 	 * @return array
 	 */
-	public function filter_code_activated_links( $actions ) {
-		unset( $actions['activate'], $actions['deactivate'], $actions['delete'], $actions['network_active'] );
+	public function filter_code_activated_links( $actions = array() ) {
+		if ( ! is_array( $actions ) ) {
+			$actions = array();
+		}
+
+		unset(
+			$actions['activate'],
+			$actions['deactivate'],
+			$actions['delete'],
+			$actions['network_active']
+		);
+
 		$actions['code_activated'] = 'Code Activated';
+
 		return $actions;
 	}
 
 	/**
-	 * Filter to prevent activation link on non-hub sites.
+	 * Filter to prevent the activate link on sites where this plugin should not run.
 	 *
 	 * @param array $actions Plugin action links.
 	 * @return array
 	 */
-	public function filter_prevent_activation_links( $actions ) {
+	public function filter_prevent_activation_links( $actions = array() ) {
+		if ( ! is_array( $actions ) ) {
+			$actions = array();
+		}
+
 		unset( $actions['activate'] );
+
 		return $actions;
 	}
 
@@ -85,7 +127,7 @@ class Require_Server_Plugin {
 	 * @param array $plugins Array of active plugins.
 	 * @return array
 	 */
-	public function filter_active_plugins( $plugins ) {
+	public function filter_active_plugins( $plugins = array() ) {
 		if ( ! is_array( $plugins ) ) {
 			$plugins = array();
 		}
@@ -93,7 +135,7 @@ class Require_Server_Plugin {
 		// 'active_plugins' is a numeric array of plugin files.
 		// 'active_sitewide_plugins' is an associative array where keys are plugin files.
 		if ( current_filter() === 'option_active_plugins' ) {
-			if ( get_current_blog_id() !== SS_MS_SSO_HUB_SITE_ID ) {
+			if ( $this->hub_only !== static::is_hub_site() ) {
 				return $plugins;
 			}
 
@@ -113,7 +155,7 @@ class Require_Server_Plugin {
 	 * @param array $plugins Array of active plugins to be saved.
 	 * @return array
 	 */
-	public function filter_prevent_activation_save( $plugins ) {
+	public function filter_prevent_activation_save( $plugins = array() ) {
 		if ( ! is_array( $plugins ) ) {
 			$plugins = array();
 		}
@@ -122,7 +164,7 @@ class Require_Server_Plugin {
 			$index = array_search( $this->plugin_file, $plugins, true );
 			if ( false !== $index ) {
 				unset( $plugins[ $index ] );
-				sort( $plugins ); // Re-index array
+				sort( $plugins ); // Re-index array.
 			}
 		} elseif ( isset( $plugins[ $this->plugin_file ] ) ) {
 			unset( $plugins[ $this->plugin_file ] );
@@ -135,5 +177,3 @@ class Require_Server_Plugin {
 		return get_current_blog_id() === SS_MS_SSO_HUB_SITE_ID;
 	}
 }
-
-Require_Server_Plugin::get_instance();
