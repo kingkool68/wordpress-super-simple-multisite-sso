@@ -7,7 +7,7 @@ class Client_Sites {
 	 *
 	 * @var string
 	 */
-	const OPTION_KEY = 'simple_ms_oidc_clients';
+	const OPTION_KEY = 'ss_ms_sso_clients';
 
 	/**
 	 * Get an instance of this class
