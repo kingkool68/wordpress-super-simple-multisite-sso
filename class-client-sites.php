@@ -52,56 +52,45 @@ class Client_Sites {
 			$clients = array();
 		}
 
-		$cached_clients = get_site_option( static::OPTION_KEY );
-		if ( false !== $cached_clients && is_array( $cached_clients ) ) {
-			return array_merge( $clients, $cached_clients );
-		}
-
-		$generated_clients = $this->generate_clients();
-
-		// Save the generated clients to sitemeta. The option is cleared automatically by hooks.
-		update_site_option( static::OPTION_KEY, $generated_clients );
-
-		return array_merge( $clients, $generated_clients );
+		return array_merge( $clients, static::get_clients() );
 	}
 
 	/**
-	 * Generates the array of clients dynamically based on active network sites.
+	 * Returns all network client configs, reading from the site option cache when available.
 	 *
 	 * @return array
 	 */
-	private function generate_clients() {
-		$generated = array();
+	public static function get_clients() {
+		$cached = get_site_option( static::OPTION_KEY );
+		if ( false !== $cached && is_array( $cached ) ) {
+			return $cached;
+		}
 
-		// Fetch all active sites in the network.
+		$clients = array();
+
 		$sites = get_sites(
 			array(
-				'number'  => 1000, // Safe upper limit, adjust if network is substantially larger.
+				'number'  => 1000,
 				'deleted' => 0,
 			)
 		);
 
 		foreach ( $sites as $site ) {
-			// Skip the hub site.
-			if ( (int) SS_MS_SSO_HUB_SITE_ID === (int) $site->blog_id ) {
+			$site_id = (int) $site->blog_id;
+			if ( (int) SS_MS_SSO_HUB_SITE_ID === $site_id ) {
 				continue;
 			}
 
-			// Generate a unique and consistent client ID and secret per site.
-			$client_id = 'client_' . $site->blog_id;
-			$secret    = hash_hmac( 'sha256', $site->blog_id, wp_salt( 'auth' ) );
-
-			// Determine the correct redirect URI for the site.
-			$site_url     = get_site_url( $site->blog_id );
+			$client_id    = 'client_' . $site_id;
+			$secret       = hash_hmac( 'sha256', $site_id, wp_salt( 'auth' ) );
+			$site_url     = get_site_url( $site_id );
 			$redirect_uri = rtrim( $site_url, '/' ) . '/wp-admin/admin-ajax.php?action=openid-connect-authorize';
-
-			// Get the site name, fallback to the domain if it's empty.
-			$site_name = get_blog_option( $site->blog_id, 'blogname' );
+			$site_name    = get_blog_option( $site_id, 'blogname' );
 			if ( empty( $site_name ) ) {
 				$site_name = $site->domain;
 			}
 
-			$generated[ $client_id ] = array(
+			$clients[ $client_id ] = array(
 				'name'         => $site_name,
 				'secret'       => $secret,
 				'redirect_uri' => $redirect_uri,
@@ -110,13 +99,15 @@ class Client_Sites {
 			);
 		}
 
-		return $generated;
+		update_site_option( static::OPTION_KEY, $clients );
+
+		return $clients;
 	}
 
 	/**
-	 * Clears the site option cache.
+	 * Clears the cached clients stored in a site option.
 	 */
-	public function clear_cache() {
+	public static function clear_clients() {
 		delete_site_option( static::OPTION_KEY );
 	}
 
