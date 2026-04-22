@@ -62,8 +62,6 @@ class OIDC_Settings_Override {
 		 */
 		$overrides = apply_filters( 'ss_ms_sso_oidc_settings_overrides', $overrides, $blog_id );
 
-		var_dump( $overrides );
-
 		return array_merge( $settings, $overrides );
 	}
 }
