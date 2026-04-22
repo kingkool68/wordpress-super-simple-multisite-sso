@@ -8,4 +8,88 @@
 
 // Copy this file to the root of your mu-plugins folder and rename to super-simple-multisite-sso.php
 
+/**
+ * Provides OIDC settings overrides for every client in the network.
+ *
+ * Uncomment and set any key to override the default value supplied by the
+ * OpenID Connect plugin. Per-site overrides passed in via $overrides take
+ * precedence over the defaults defined here.
+ *
+ * @param array $overrides Per-site overrides already applied upstream.
+ * @param int   $blog_id   The ID of the site being configured.
+ * @return array Merged settings with these defaults applied first.
+ */
+add_filter(
+	'ss_ms_sso_oidc_settings_overrides',
+	function ( $overrides = array(), $blog_id = 1 ) {
+		$new_overrides = array(
+			// How the login UI is presented: "button" shows a button, "auto" redirects automatically.
+			// 'login_type'               => 'button',
+			// Custom label for the login button (empty = default text).
+			// 'login_button_text'        => '',
+			// OAuth2 client ID registered on the identity provider.
+			// 'client_id'                => '',
+			// OAuth2 client secret registered on the identity provider.
+			// 'client_secret'            => '',
+			// Space-separated list of OAuth2 scopes to request.
+			// 'scope'                    => 'openid profile email',
+			// Identity provider's authorization endpoint URL.
+			// 'endpoint_login'           => '<domain>/wp-json/openid-connect/authorize',
+			// Identity provider's userinfo endpoint URL.
+			// 'endpoint_userinfo'        => '<domain>/wp-json/openid-connect/userinfo',
+			// Identity provider's token endpoint URL.
+			// 'endpoint_token'           => '<domain>/wp-json/openid-connect/token',
+			// Identity provider's end-session (logout) endpoint URL (empty = disabled)
+			// 'endpoint_end_session'     => '',
+			// Identity provider's JWKS (public key) endpoint URL for token signature verification.
+			// 'endpoint_jwks'            => '<domain>/.well-known/jwks.json',
+			// Expected issuer claim value in the ID token.
+			// 'issuer'                   => '<domain>/',
+			// How long (in seconds) to cache the JWKS public keys locally.
+			// 'jwks_cache_ttl'           => '3600',
+			// Authentication Context Class Reference values to request (empty = none).
+			// 'acr_values'               => '',
+			// Which token claim to use as the unique user identifier.
+			// 'identity_key'             => 'preferred_username',
+			// Timeout in seconds for HTTP requests to the identity provider.
+			// 'http_request_timeout'     => '5',
+			// Redirect non-logged-in users to the login page (1 = enforce, 0 = allow public access).
+			// 'enforce_privacy'          => '0',
+			// Use an alternate redirect URI format for compatibility with some providers (1 = alternate, 0 = default).
+			// 'alternate_redirect_uri'   => '0',
+			// Which token claim to use as the WordPress nickname.
+			// 'nickname_key'             => 'preferred_username',
+			// Template for the user's email address; {email} is replaced with the claim value.
+			// 'email_format'             => '{email}',
+			// Template for the display name (empty = use WordPress default).
+			// 'displayname_format'       => '',
+			// Use the username claim (vs. email) to identify existing WordPress users (1 = yes, 0 = no).
+			// 'identify_with_username'   => '0',
+			// How long (in seconds) the state parameter is valid during the OAuth flow.
+			// 'state_time_limit'         => '180',
+			// Automatically refresh access tokens when they expire (1 = yes, 0 = no).
+			// 'token_refresh_enable'     => '1',
+			// Disable SSL certificate verification for identity provider requests (0 = verify, 1 = skip — insecure).
+			// 'no_sslverify'             => '0',
+			// Allow authentication via the local WordPress login form in addition to OIDC (1 = yes, 0 = no).
+			// 'allow_internal_idp'       => '0',
+			// Link an OIDC login to an existing WordPress user with a matching email (1 = yes, 0 = no).
+			// 'link_existing_users'      => '1',
+			// Create a new WordPress user if no match is found during login (1 = yes, 0 = no).
+			// 'create_if_does_not_exist' => '0',
+			// Redirect the user back to the page they were on before logging in (1 = yes, 0 = no).
+			// 'redirect_user_back'       => '1',
+			// Redirect the user to the identity provider's logout page when logging out of WordPress (1 = yes, 0 = no).
+			// 'redirect_on_logout'       => '1',
+			// Enable debug logging for the OIDC plugin (1 = yes, 0 = no).
+			// 'enable_logging'           => '0',
+			// Maximum number of log entries to retain.
+			// 'log_limit'                => '1000',
+		);
+		return array_merge( $new_overrides, $overrides );
+	},
+	10,
+	2
+);
+
 require_once WPMU_PLUGIN_DIR . '/super-simple-multisite-sso/bootstrap.php';
