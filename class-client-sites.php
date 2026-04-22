@@ -89,8 +89,7 @@ class Client_Sites {
 
 			// Generate a unique and consistent client ID and secret per site.
 			$client_id = 'client_' . $site->blog_id;
-			$salt      = defined( 'AUTH_KEY' ) ? AUTH_KEY : 'fallback-oidc-secret-salt';
-			$secret    = hash_hmac( 'sha256', $site->blog_id, $salt );
+			$secret    = hash_hmac( 'sha256', $site->blog_id, wp_salt( 'auth' ) );
 
 			// Determine the correct redirect URI for the site.
 			$site_url     = get_site_url( $site->blog_id );
