@@ -22,7 +22,7 @@ class Client_Sites {
 	}
 
 	/**
-	 * Constructor.
+	 * Set up hooks and actions
 	 */
 	private function setup() {
 		add_filter( 'oidc_registered_clients', array( $this, 'register_clients' ) );
@@ -112,50 +112,23 @@ class Client_Sites {
 	}
 
 	/**
-	 * Updates the site name in the OIDC client cache without rebuilding the entire network cache.
+	 * If a site name gets updated clear cached client configuration.
 	 *
 	 * @param mixed $old_value The old option value.
 	 * @param mixed $new_value The new option value.
 	 */
 	public function action_update_option_blogname( $old_value, $new_value ) {
-		// 1. Compare values: If the name hasn't actually changed, bail.
+		// Compare values: If the name hasn't actually changed, bail.
 		if ( $old_value === $new_value ) {
 			return;
 		}
 
-		$blog_id = get_current_blog_id();
-
-		// 2. The hub site isn't in the client list, so we can ignore it.
-		if ( (int) SS_MS_SSO_HUB_SITE_ID === (int) $blog_id ) {
+		// The hub site isn't in the client list, so we can ignore it.
+		if ( (int) SS_MS_SSO_HUB_SITE_ID === (int) get_current_blog_id() ) {
 			return;
 		}
 
-		// 3. Fetch the existing cache.
-		$cached_clients = get_site_option( static::OPTION_KEY );
-
-		// If the cache doesn't exist or isn't an array, bail.
-		// The standard generation method will handle it the next time clients are requested.
-		if ( false === $cached_clients || ! is_array( $cached_clients ) ) {
-			return;
-		}
-
-		$client_id = 'client_' . $blog_id;
-
-		// 4. If this specific site is in the cache, update its name and save.
-		if ( isset( $cached_clients[ $client_id ] ) ) {
-
-			// Fallback to domain if the new name is saved as completely empty
-			// (This matches the logic in your generate_clients() method).
-			if ( empty( $new_value ) ) {
-				$site      = get_site( $blog_id );
-				$new_value = $site ? $site->domain : '';
-			}
-
-			$cached_clients[ $client_id ]['name'] = $new_value;
-
-			// Save the modified array back to the database.
-			update_site_option( static::OPTION_KEY, $cached_clients );
-		}
+		static::clear_clients();
 	}
 }
 
