@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Manages the registration and configuration of OIDC clients for network sites.
+ *
+ * This class automatically treats all non-hub sites in a multisite network as OIDC clients,
+ * generating their credentials and overriding their OIDC settings to point back to the hub.
+ */
 class Client_Sites {
 
 	/**
