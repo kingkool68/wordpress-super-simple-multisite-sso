@@ -1,0 +1,24 @@
+{
+  "name": "kingkool68/super-simple-multisite-sso",
+  "description": "Enable single sign on (SSO) across the sites in a WordPress multisite setup.",
+  "type": "wordpress-muplugin",
+  "support": {
+    "issues": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
+    "source": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso"
+  },
+  "require": {
+    "daggerhart/openid-connect-generic": "^3.11",
+    "joshbetz/wp-openid-connect-server": "dev-add/kid"
+  },
+  "homepage": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/oidc-wp/openid-connect-generic"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/joshbetz/wp-openid-connect-server"
+    }
+  ]
+}
