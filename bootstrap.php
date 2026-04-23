@@ -5,6 +5,10 @@
  * @package Super Simple Multisite SSO
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Default to the 1st site as the SSO Hub Site if the constant isn't set.
  */
