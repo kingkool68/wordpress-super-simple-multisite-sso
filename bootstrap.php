@@ -31,7 +31,13 @@ Require_Plugin::register( 'wp-openid-connect-server/openid-connect-server.php', 
 Require_Plugin::register( 'daggerhart-openid-connect-generic/openid-connect-generic.php', false );
 
 /**
- * Injects the missing email claim into the OIDC user info payload.
+ * Injects identity claims into the OIDC user info payload.
+ *
+ * Ensures that the email and preferred_username claims are present for the client sites.
+ *
+ * @param array   $claims The existing claims.
+ * @param WP_User $user   The user object.
+ * @return array Updated claims.
  */
 add_filter(
 	'oidc_user_claims',
