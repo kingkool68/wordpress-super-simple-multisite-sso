@@ -50,3 +50,14 @@ add_filter(
 	10,
 	2
 );
+
+/**
+ * Destroys all session tokens for a user upon logout, effectively logging them out
+ * of all sites in the network simultaneously.
+ */
+add_action(
+	'wp_logout',
+	function ( $user_id = 0 ) {
+		delete_user_meta( $user_id, 'session_tokens' );
+	}
+);
