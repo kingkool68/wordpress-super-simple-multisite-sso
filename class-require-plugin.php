@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Handles the programmatic activation and UI management of required plugins.
+ *
+ * This class ensures that specific plugins are loaded based on whether the current
+ * site is the SSO Hub or a client site, while also managing their appearance in the WP Admin.
+ */
 class Require_Plugin {
 
 	/**
