@@ -107,7 +107,7 @@ class Client_Sites {
 	/**
 	 * Clears the cached clients stored in a site option.
 	 */
-	public static function clear_clients() {
+	public static function destroy_clients() {
 		delete_site_option( static::OPTION_KEY );
 	}
 
@@ -128,7 +128,7 @@ class Client_Sites {
 			return;
 		}
 
-		static::clear_clients();
+		static::destroy_clients();
 	}
 }
 
