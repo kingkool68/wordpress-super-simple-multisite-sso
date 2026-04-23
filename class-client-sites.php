@@ -71,7 +71,7 @@ class Client_Sites {
 		$blog_id = get_current_blog_id();
 
 		// Bail if we're on the defined hub site.
-		if ( (int) SS_MS_SSO_HUB_SITE_ID === (int) $blog_id ) {
+		if ( Helpers::is_hub_site( $blog_id ) ) {
 			return $settings;
 		}
 
@@ -128,7 +128,7 @@ class Client_Sites {
 
 		foreach ( $sites as $site ) {
 			$site_id = (int) $site->blog_id;
-			if ( (int) SS_MS_SSO_HUB_SITE_ID === $site_id ) {
+			if ( Helpers::is_hub_site( $site_id ) ) {
 				continue;
 			}
 
@@ -175,7 +175,7 @@ class Client_Sites {
 		}
 
 		// The hub site isn't in the client list, so we can ignore it.
-		if ( (int) SS_MS_SSO_HUB_SITE_ID === (int) get_current_blog_id() ) {
+		if ( Helpers::is_hub_site() ) {
 			return;
 		}
 

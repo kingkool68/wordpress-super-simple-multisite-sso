@@ -55,7 +55,7 @@ class Require_Plugin {
 			return;
 		}
 
-		if ( $this->hub_only === static::is_hub_site() ) {
+		if ( $this->hub_only === Helpers::is_hub_site() ) {
 			require_once $this->plugin_path;
 		}
 
@@ -64,7 +64,7 @@ class Require_Plugin {
 			array( $this, 'filter_code_activated_links' )
 		);
 
-		if ( $this->hub_only === static::is_hub_site() ) {
+		if ( $this->hub_only === Helpers::is_hub_site() ) {
 			add_filter(
 				"plugin_action_links_{$this->plugin_file}",
 				array( $this, 'filter_code_activated_links' )
@@ -135,7 +135,7 @@ class Require_Plugin {
 		// 'active_plugins' is a numeric array of plugin files.
 		// 'active_sitewide_plugins' is an associative array where keys are plugin files.
 		if ( current_filter() === 'option_active_plugins' ) {
-			if ( $this->hub_only !== static::is_hub_site() ) {
+			if ( $this->hub_only !== Helpers::is_hub_site() ) {
 				return $plugins;
 			}
 
@@ -171,9 +171,5 @@ class Require_Plugin {
 		}
 
 		return $plugins;
-	}
-
-	public static function is_hub_site() {
-		return get_current_blog_id() === SS_MS_SSO_HUB_SITE_ID;
 	}
 }

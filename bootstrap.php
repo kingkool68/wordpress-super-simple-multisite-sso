@@ -16,6 +16,7 @@ if ( ! defined( 'SS_MS_SSO_HUB_SITE_ID' ) ) {
  * Load needed classes
  */
 $files_to_load = array(
+	'class-helpers.php',
 	'class-require-plugin.php',
 	'class-client-sites.php',
 );
