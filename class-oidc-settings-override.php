@@ -12,7 +12,6 @@ class OIDC_Settings_Override {
 	}
 
 	private function setup() {
-		// WordPress auto-unserializes options, so the filter receives a PHP array.
 		add_filter( 'option_openid_connect_generic_settings', array( $this, 'override_settings' ) );
 	}
 
