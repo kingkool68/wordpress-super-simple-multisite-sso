@@ -7,18 +7,51 @@
     "source": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso"
   },
   "require": {
+    "composer/installers": "^2.0",
     "daggerhart/openid-connect-generic": "^3.11",
     "joshbetz/wp-openid-connect-server": "dev-add/kid"
   },
+  "extra": {
+    "installer-paths": {
+      "../../plugins/{$name}/": ["type:wordpress-plugin"]
+    }
+  },
   "homepage": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
+  "config": {
+    "audit": {
+      "ignore": ["PKSA-y2cr-5h3j-g3ys"]
+    },
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  },
   "repositories": [
     {
       "type": "vcs",
       "url": "https://github.com/oidc-wp/openid-connect-generic"
     },
     {
-      "type": "vcs",
-      "url": "https://github.com/joshbetz/wp-openid-connect-server"
+      "type": "package",
+      "package": {
+        "name": "joshbetz/wp-openid-connect-server",
+        "type": "wordpress-plugin",
+        "version": "dev-add/kid",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/joshbetz/wp-openid-connect-server.git",
+          "reference": "add/kid"
+        },
+        "autoload": {
+          "psr-4": {
+            "OpenIDConnectServer\\": "src/"
+          }
+        },
+        "require": {
+          "ext-json": "*",
+          "ext-openssl": "*",
+          "bshaffer/oauth2-server-php": "^1.12"
+        }
+      }
     }
   ]
 }
