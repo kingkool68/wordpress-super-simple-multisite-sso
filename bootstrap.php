@@ -18,7 +18,6 @@ if ( ! defined( 'SS_MS_SSO_HUB_SITE_ID' ) ) {
 $files_to_load = array(
 	'class-require-plugin.php',
 	'class-client-sites.php',
-	'class-oidc-settings-override.php',
 );
 foreach ( $files_to_load as $file_name ) {
 	$file = __DIR__ . '/' . $file_name;
