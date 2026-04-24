@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a60b86352de543e1c5ec26283effd55",
+    "content-hash": "29a08c9af86572e544f375b26cb2a32e",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -215,205 +215,6 @@
             "time": "2024-06-24T20:46:46+00:00"
         },
         {
-            "name": "daggerhart/openid-connect-generic",
-            "version": "3.11.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oidc-wp/openid-connect-generic.git",
-                "reference": "0ef442c0f61bda837bddacec37b96035176bee27"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oidc-wp/openid-connect-generic/zipball/0ef442c0f61bda837bddacec37b96035176bee27",
-                "reference": "0ef442c0f61bda837bddacec37b96035176bee27",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "~1.0|~2.0",
-                "firebase/php-jwt": "^6.10",
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "brain/monkey": "^2.6",
-                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-                "johnpbloch/wordpress-core": "~6.2.0",
-                "johnpbloch/wordpress-core-installer": "^2.0",
-                "mockery/mockery": "^1.5",
-                "php": ">=8.1",
-                "php-stubs/wordpress-stubs": "~6.2.0",
-                "phpro/grumphp": "^2.0",
-                "phpstan/extension-installer": "^1.3",
-                "phpstan/phpstan": "^1.10",
-                "phpstan/phpstan-deprecation-rules": "^1.1",
-                "phpunit/phpunit": "^9.6.0",
-                "roave/security-advisories": "dev-master",
-                "squizlabs/php_codesniffer": "^3.7",
-                "szepeviktor/phpstan-wordpress": "^1.3",
-                "wp-coding-standards/wpcs": "^3.0.0",
-                "wp-phpunit/wp-phpunit": "~6.2.0",
-                "wpackagist-plugin/debug-bar": "*",
-                "wpackagist-plugin/debug-bar-actions-and-filters-addon": "*",
-                "wpackagist-plugin/display-environment-type": "*",
-                "wpackagist-plugin/health-check": "*",
-                "wpackagist-plugin/query-monitor": "*",
-                "wpackagist-plugin/transients-manager": "*",
-                "wpackagist-theme/twentytwentythree": "*",
-                "yoast/phpunit-polyfills": "^2.0"
-            },
-            "type": "wordpress-plugin",
-            "extra": {
-                "wordpress-install-dir": "tools/local-env/wp",
-                "installer-paths": {
-                    "tools/local-env/wp-content/plugins/{$name}": [
-                        "type:wordpress-plugin"
-                    ],
-                    "tools/local-env/wp-content/mu-plugins/{$name}": [
-                        "type:wordpress-muplugin"
-                    ],
-                    "tools/local-env/wp-content/themes/{$name}": [
-                        "type:wordpress-theme"
-                    ]
-                },
-                "phpcodesniffer-search-depth": 5
-            },
-            "autoload": {
-                "classmap": [
-                    "openid-connect-generic.php",
-                    "includes/openid-connect-generic-client.php",
-                    "includes/openid-connect-generic-client-wrapper.php",
-                    "includes/openid-connect-generic-jwt-validator.php",
-                    "includes/openid-connect-generic-login-form.php",
-                    "includes/openid-connect-generic-option-logger.php",
-                    "includes/openid-connect-generic-option-settings.php",
-                    "includes/openid-connect-generic-settings-page.php"
-                ]
-            },
-            "scripts": {
-                "install-codestandards": [
-                    "PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-                ],
-                "post-install-cmd": [
-                    "@install-codestandards"
-                ],
-                "post-update-cmd": [
-                    "@install-codestandards"
-                ],
-                "phpcs": [
-                    "vendor/bin/phpcs"
-                ],
-                "phpcbf": [
-                    "vendor/bin/phpcbf"
-                ],
-                "phpstan": [
-                    "vendor/bin/phpstan --memory-limit=1024M"
-                ],
-                "phpunit": [
-                    "vendor/bin/phpunit"
-                ],
-                "coverage": [
-                    "@phpunit --coverage-text"
-                ],
-                "lint": [
-                    "@phpcs --report=full"
-                ],
-                "lint-fix": [
-                    "@phpcbf"
-                ],
-                "analyze": [
-                    "@phpstan analyze"
-                ]
-            },
-            "license": [
-                "GPL-2.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan Daggerhart",
-                    "email": "jonathan@daggerhart.com",
-                    "homepage": "https://github.com/daggerhart"
-                },
-                {
-                    "name": "Tim Nolte",
-                    "email": "tim.nolte@ndigitals.com",
-                    "homepage": "https://github.com/timnolte"
-                }
-            ],
-            "description": "OpenID Connect generic WordPress plugin.",
-            "homepage": "https://github.com/oidc-wp/openid-connect-generic",
-            "keywords": [
-                "openid",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/oidc-wp/openid-connect-generic/issues",
-                "source": "https://github.com/oidc-wp/openid-connect-generic/tree/3.11.3"
-            },
-            "time": "2026-02-13T04:33:51+00:00"
-        },
-        {
-            "name": "firebase/php-jwt",
-            "version": "v6.11.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/googleapis/php-jwt.git",
-                "reference": "d1e91ecf8c598d073d0995afa8cd5c75c6e19e66"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/d1e91ecf8c598d073d0995afa8cd5c75c6e19e66",
-                "reference": "d1e91ecf8c598d073d0995afa8cd5c75c6e19e66",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^7.4",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5",
-                "psr/cache": "^2.0||^3.0",
-                "psr/http-client": "^1.0",
-                "psr/http-factory": "^1.0"
-            },
-            "suggest": {
-                "ext-sodium": "Support EdDSA (Ed25519) signatures",
-                "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Firebase\\JWT\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Neuman Vong",
-                    "email": "neuman+pear@twilio.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Anant Narayanan",
-                    "email": "anant@php.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-            "homepage": "https://github.com/firebase/php-jwt",
-            "keywords": [
-                "jwt",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/googleapis/php-jwt/issues",
-                "source": "https://github.com/googleapis/php-jwt/tree/v6.11.1"
-            },
-            "time": "2025-04-09T20:32:01+00:00"
-        },
-        {
             "name": "joshbetz/wp-openid-connect-server",
             "version": "dev-add/kid",
             "source": {
@@ -432,13 +233,24 @@
                     "OpenIDConnectServer\\": "src/"
                 }
             }
+        },
+        {
+            "name": "oidc-wp/openid-connect-generic",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oidc-wp/openid-connect-generic.git",
+                "reference": "main"
+            },
+            "type": "wordpress-plugin"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joshbetz/wp-openid-connect-server": 20
+        "joshbetz/wp-openid-connect-server": 20,
+        "oidc-wp/openid-connect-generic": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

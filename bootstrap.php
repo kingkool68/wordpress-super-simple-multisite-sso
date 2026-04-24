@@ -32,7 +32,7 @@ foreach ( $files_to_load as $file_name ) {
 }
 
 Require_Plugin::register( 'wp-openid-connect-server/openid-connect-server.php', true );
-Require_Plugin::register( 'daggerhart-openid-connect-generic/openid-connect-generic.php', false );
+Require_Plugin::register( 'openid-connect-generic/openid-connect-generic.php', false );
 
 /**
  * Injects identity claims into the OIDC user info payload.

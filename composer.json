@@ -8,18 +8,29 @@
   },
   "require": {
     "composer/installers": "^2.0",
-    "daggerhart/openid-connect-generic": "^3.11",
+    "oidc-wp/openid-connect-generic": "dev-main",
     "joshbetz/wp-openid-connect-server": "dev-add/kid"
   },
   "extra": {
     "installer-paths": {
-      "../../plugins/{$name}/": ["type:wordpress-plugin"]
+      "../../plugins/{$name}/": [
+        "oidc-wp/openid-connect-generic",
+        "joshbetz/wp-openid-connect-server"
+      ]
     }
   },
   "homepage": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
+  "scripts": {
+    "post-install-cmd": [
+      "cd ../../plugins/openid-connect-generic && [ -f composer.json ] && composer install --no-dev || true",
+      "cd ../../plugins/wp-openid-connect-server && [ -f composer.json ] && composer install --no-dev || true"
+    ]
+  },
   "config": {
     "audit": {
-      "ignore": ["PKSA-y2cr-5h3j-g3ys"]
+      "ignore": [
+        "PKSA-y2cr-5h3j-g3ys"
+      ]
     },
     "allow-plugins": {
       "composer/installers": true
@@ -27,8 +38,17 @@
   },
   "repositories": [
     {
-      "type": "vcs",
-      "url": "https://github.com/oidc-wp/openid-connect-generic"
+      "type": "package",
+      "package": {
+        "name": "oidc-wp/openid-connect-generic",
+        "type": "wordpress-plugin",
+        "version": "dev-main",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/oidc-wp/openid-connect-generic.git",
+          "reference": "main"
+        }
+      }
     },
     {
       "type": "package",
