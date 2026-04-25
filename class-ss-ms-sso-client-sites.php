@@ -37,6 +37,7 @@ class SS_MS_SSO_Client_Sites {
 	private function setup() {
 		add_filter( 'oidc_registered_clients', array( $this, 'register_clients' ) );
 		add_filter( 'option_openid_connect_generic_settings', array( $this, 'override_settings' ) );
+		add_filter( 'default_option_openid_connect_generic_settings', array( $this, 'override_settings' ) );
 		add_action( 'init', array( $this, 'disable_two_factor_ui_on_clients' ) );
 		add_action( 'openid-connect-generic-update-user-using-current-claim', array( $this, 'bypass_two_factor_for_sso' ) );
 
