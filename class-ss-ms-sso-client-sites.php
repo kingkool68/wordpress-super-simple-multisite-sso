@@ -106,6 +106,9 @@ class SS_MS_SSO_Client_Sites {
 			'endpoint_token'    => $hub_site_url . '/wp-json/openid-connect/token',
 			'endpoint_jwks'     => $hub_site_url . '/.well-known/jwks.json',
 		);
+		if ( empty( $settings['scope'] ) ) {
+			$overrides['scope'] = 'openid profile email';
+		}
 
 		/**
 		 * Filters the OIDC settings overrides applied to client sites.
