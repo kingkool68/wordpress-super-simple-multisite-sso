@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Super Simple Multisite SSO
- * Description: Enable single sign on (SSO) across the sites in a multisite setup.
+ * Description: Seamless single sign-on (SSO) for WordPress Multisite. Log in once.
  *
  * @package Super Simple Multisite SSO
  */
