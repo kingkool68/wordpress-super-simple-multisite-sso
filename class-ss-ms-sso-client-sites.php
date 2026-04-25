@@ -166,8 +166,12 @@ class SS_MS_SSO_Client_Sites {
 				continue;
 			}
 
-			$client_id    = static::get_client_id( $site_id );
-			$secret       = hash_hmac( 'sha256', $site_id, wp_salt( 'auth' ) );
+			$client_id = static::get_client_id( $site_id );
+			$salt      = '';
+			if ( defined( 'AUTH_SALT' ) ) {
+				$salt = AUTH_SALT;
+			}
+			$secret       = hash_hmac( 'sha256', $site_id, $salt );
 			$site_url     = get_site_url( $site_id );
 			$redirect_uri = rtrim( $site_url, '/' ) . '/wp-admin/admin-ajax.php?action=openid-connect-authorize';
 			$site_name    = get_blog_option( $site_id, 'blogname' );
