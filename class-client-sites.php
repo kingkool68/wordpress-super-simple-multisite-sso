@@ -102,7 +102,7 @@ class Client_Sites {
 			'endpoint_login'    => $hub_site_url . '/wp-json/openid-connect/authorize',
 			'endpoint_userinfo' => $hub_site_url . '/wp-json/openid-connect/userinfo',
 			'endpoint_token'    => $hub_site_url . '/wp-json/openid-connect/token',
-			'endpoint_jwks'     => $hub_site_url . '/.well-known/jwks.json', // Should be /.well-known/jwks.json once https://github.com/Automattic/wp-openid-connect-server/pull/132 is merged
+			'endpoint_jwks'     => $hub_site_url . '/.well-known/jwks.json',
 		);
 
 		/**
