@@ -3,7 +3,7 @@
   "description": "Seamless single sign-on (SSO) for WordPress Multisite. Log in once.",
   "type": "wordpress-muplugin",
   "homepage": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
-  "license": "GPL-2.0-or-later",
+  "license": "GPL-3.0-or-later",
   "support": {
     "issues": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso/issues",
     "source": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso"
