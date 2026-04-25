@@ -1,77 +1,14 @@
 {
   "name": "kingkool68/super-simple-multisite-sso",
-  "description": "Enable single sign on (SSO) across the sites in a WordPress multisite setup.",
+  "description": "Seamless single sign-on (SSO) for WordPress Multisite. Log in once.",
   "type": "wordpress-muplugin",
+  "homepage": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
+  "license": "GPL-2.0-or-later",
   "support": {
-    "issues": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
+    "issues": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso/issues",
     "source": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso"
   },
   "require": {
-    "composer/installers": "^2.0",
-    "oidc-wp/openid-connect-generic": "dev-main",
-    "joshbetz/wp-openid-connect-server": "dev-add/kid"
-  },
-  "extra": {
-    "installer-paths": {
-      "../../plugins/{$name}/": [
-        "oidc-wp/openid-connect-generic",
-        "joshbetz/wp-openid-connect-server"
-      ]
-    }
-  },
-  "homepage": "https://github.com/kingkool68/wordpress-super-simple-multisite-sso",
-  "scripts": {
-    "post-install-cmd": [
-      "cd ../../plugins/openid-connect-generic && [ -f composer.json ] && composer install --no-dev || true",
-      "cd ../../plugins/wp-openid-connect-server && [ -f composer.json ] && composer install --no-dev || true"
-    ]
-  },
-  "config": {
-    "audit": {
-      "ignore": [
-        "PKSA-y2cr-5h3j-g3ys"
-      ]
-    },
-    "allow-plugins": {
-      "composer/installers": true
-    }
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "oidc-wp/openid-connect-generic",
-        "type": "wordpress-plugin",
-        "version": "dev-main",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/oidc-wp/openid-connect-generic.git",
-          "reference": "main"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "joshbetz/wp-openid-connect-server",
-        "type": "wordpress-plugin",
-        "version": "dev-add/kid",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/joshbetz/wp-openid-connect-server.git",
-          "reference": "add/kid"
-        },
-        "autoload": {
-          "psr-4": {
-            "OpenIDConnectServer\\": "src/"
-          }
-        },
-        "require": {
-          "ext-json": "*",
-          "ext-openssl": "*",
-          "bshaffer/oauth2-server-php": "^1.12"
-        }
-      }
-    }
-  ]
+    "composer/installers": "^1.0 || ^2.0"
+  }
 }
