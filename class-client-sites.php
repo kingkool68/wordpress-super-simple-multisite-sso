@@ -39,9 +39,9 @@ class Client_Sites {
 		add_filter( 'option_openid_connect_generic_settings', array( $this, 'override_settings' ) );
 
 		// Hooks to clear the cache when sites are added, updated, or deleted.
-		add_action( 'wp_insert_site', array( $this, 'clear_cache' ) );
-		add_action( 'wp_delete_site', array( $this, 'clear_cache' ) );
-		add_action( 'wp_update_site', array( $this, 'clear_cache' ) );
+		add_action( 'wp_insert_site', array( $this, 'destroy_clients' ) );
+		add_action( 'wp_delete_site', array( $this, 'destroy_clients' ) );
+		add_action( 'wp_update_site', array( $this, 'destroy_clients' ) );
 
 		// Hook to catch site title changes on any site.
 		add_action(
