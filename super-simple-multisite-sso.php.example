@@ -92,4 +92,4 @@ add_filter(
 	2
 );
 
-require_once WPMU_PLUGIN_DIR . '/super-simple-multisite-sso/bootstrap.php';
+require_once WPMU_PLUGIN_DIR . '/wordpress-super-simple-multisite-sso/bootstrap.php';
