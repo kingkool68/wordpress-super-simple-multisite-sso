@@ -99,7 +99,6 @@ class SS_MS_SSO_Client_Sites {
 		$client_configs = static::get_clients();
 
 		$overrides = array(
-			'login_type'        => 'auto',
 			'client_id'         => $client_id,
 			'client_secret'     => $client_configs[ $client_id ]['secret'] ?? '',
 			'endpoint_login'    => $hub_site_url . '/wp-json/openid-connect/authorize',
