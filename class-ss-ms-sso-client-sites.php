@@ -95,7 +95,7 @@ class SS_MS_SSO_Client_Sites {
 		}
 		$hub_site_url = untrailingslashit( $hub_site_url );
 
-		$client_id      = 'client_' . $blog_id;
+		$client_id      = static::get_client_id( $blog_id );
 		$client_configs = static::get_clients();
 
 		$overrides = array(
@@ -166,7 +166,7 @@ class SS_MS_SSO_Client_Sites {
 				continue;
 			}
 
-			$client_id    = 'client_' . $site_id;
+			$client_id    = static::get_client_id( $site_id );
 			$secret       = hash_hmac( 'sha256', $site_id, wp_salt( 'auth' ) );
 			$site_url     = get_site_url( $site_id );
 			$redirect_uri = rtrim( $site_url, '/' ) . '/wp-admin/admin-ajax.php?action=openid-connect-authorize';
@@ -214,6 +214,20 @@ class SS_MS_SSO_Client_Sites {
 		}
 
 		static::destroy_clients();
+	}
+
+	/**
+	 * Generates a deterministic client ID for a specific site.
+	 *
+	 * @param int $site_id Optional. The site ID. Defaults to current site.
+	 * @return string The MD5 hashed client ID.
+	 */
+	public static function get_client_id( $site_id = 0 ) {
+		$site_id = absint( $site_id );
+		if ( empty( $site_id ) ) {
+			$site_id = get_current_blog_id();
+		}
+		return md5( 'client_' . $site_id . wp_salt( 'auth' ) );
 	}
 }
 
