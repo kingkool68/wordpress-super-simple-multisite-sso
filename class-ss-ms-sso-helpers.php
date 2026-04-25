@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Helper methods for Super Simple Multisite SSO.
  */
-class Helpers {
+class SS_MS_SSO_Helpers {
 
 	/**
 	 * Checks if a given site ID (or the current site) is the hub site.

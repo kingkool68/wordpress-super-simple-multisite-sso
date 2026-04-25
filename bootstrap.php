@@ -20,9 +20,9 @@ if ( ! defined( 'SS_MS_SSO_HUB_SITE_ID' ) ) {
  * Load needed classes
  */
 $files_to_load = array(
-	'class-helpers.php',
-	'class-require-plugin.php',
-	'class-client-sites.php',
+	'class-ss-ms-sso-helpers.php',
+	'class-ss-ms-sso-require-plugin.php',
+	'class-ss-ms-sso-client-sites.php',
 );
 foreach ( $files_to_load as $file_name ) {
 	$file = __DIR__ . '/' . $file_name;
@@ -31,8 +31,8 @@ foreach ( $files_to_load as $file_name ) {
 	}
 }
 
-Require_Plugin::register( 'wp-openid-connect-server/openid-connect-server.php', true );
-Require_Plugin::register( 'openid-connect-generic/openid-connect-generic.php', false );
+SS_MS_SSO_Require_Plugin::register( 'wp-openid-connect-server/openid-connect-server.php', true );
+SS_MS_SSO_Require_Plugin::register( 'openid-connect-generic/openid-connect-generic.php', false );
 
 /**
  * Injects identity claims into the OIDC user info payload.

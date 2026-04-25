@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This class automatically treats all non-hub sites in a multisite network as OIDC clients,
  * generating their credentials and overriding their OIDC settings to point back to the hub.
  */
-class Client_Sites {
+class SS_MS_SSO_Client_Sites {
 
 	/**
 	 * The option key used for storing clients.
@@ -81,7 +81,7 @@ class Client_Sites {
 		$blog_id = get_current_blog_id();
 
 		// Bail if we're on the defined hub site.
-		if ( Helpers::is_hub_site( $blog_id ) ) {
+		if ( SS_MS_SSO_Helpers::is_hub_site( $blog_id ) ) {
 			return $settings;
 		}
 
@@ -138,7 +138,7 @@ class Client_Sites {
 
 		foreach ( $sites as $site ) {
 			$site_id = (int) $site->blog_id;
-			if ( Helpers::is_hub_site( $site_id ) ) {
+			if ( SS_MS_SSO_Helpers::is_hub_site( $site_id ) ) {
 				continue;
 			}
 
@@ -185,7 +185,7 @@ class Client_Sites {
 		}
 
 		// The hub site isn't in the client list, so we can ignore it.
-		if ( Helpers::is_hub_site() ) {
+		if ( SS_MS_SSO_Helpers::is_hub_site() ) {
 			return;
 		}
 
@@ -193,4 +193,4 @@ class Client_Sites {
 	}
 }
 
-Client_Sites::get_instance();
+SS_MS_SSO_Client_Sites::get_instance();

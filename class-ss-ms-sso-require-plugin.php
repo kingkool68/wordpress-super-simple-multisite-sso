@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This class ensures that specific plugins are loaded based on whether the current
  * site is the SSO Hub or a client site, while also managing their appearance in the WP Admin.
  */
-class Require_Plugin {
+class SS_MS_SSO_Require_Plugin {
 
 	/**
 	 * The plugin file to load.
@@ -65,7 +65,7 @@ class Require_Plugin {
 			return;
 		}
 
-		$should_load = Helpers::is_hub_site() === $this->hub_only;
+		$should_load = SS_MS_SSO_Helpers::is_hub_site() === $this->hub_only;
 
 		if ( $should_load ) {
 			require_once $this->plugin_path;
@@ -147,14 +147,14 @@ class Require_Plugin {
 		// 'active_plugins' is a numeric array of plugin files.
 		// 'active_sitewide_plugins' is an associative array where keys are plugin files.
 		if ( current_filter() === 'option_active_plugins' ) {
-			if ( Helpers::is_hub_site() !== $this->hub_only ) {
+			if ( SS_MS_SSO_Helpers::is_hub_site() !== $this->hub_only ) {
 				return $plugins;
 			}
 
 			if ( ! in_array( $this->plugin_file, $plugins, true ) ) {
 				$plugins[] = $this->plugin_file;
 			}
-		} elseif ( Helpers::is_hub_site() === $this->hub_only && ! isset( $plugins[ $this->plugin_file ] ) ) {
+		} elseif ( SS_MS_SSO_Helpers::is_hub_site() === $this->hub_only && ! isset( $plugins[ $this->plugin_file ] ) ) {
 			$plugins[ $this->plugin_file ] = time();
 		}
 
