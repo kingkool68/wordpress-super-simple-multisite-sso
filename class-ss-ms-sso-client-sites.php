@@ -227,7 +227,13 @@ class SS_MS_SSO_Client_Sites {
 		if ( empty( $site_id ) ) {
 			$site_id = get_current_blog_id();
 		}
-		return md5( 'client_' . $site_id . wp_salt( 'auth' ) );
+
+		$salt = '';
+		if ( defined( 'AUTH_SALT' ) ) {
+			$salt = AUTH_SALT;
+		}
+
+		return md5( 'client_' . $site_id . $salt );
 	}
 }
 
