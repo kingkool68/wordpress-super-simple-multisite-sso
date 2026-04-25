@@ -93,7 +93,7 @@ class Client_Sites {
 		$hub_site_url = untrailingslashit( $hub_site_url );
 
 		$client_id      = 'client_' . $blog_id;
-		$client_configs = self::get_clients();
+		$client_configs = static::get_clients();
 
 		$overrides = array(
 			'login_type'        => 'auto',

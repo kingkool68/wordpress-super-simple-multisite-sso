@@ -65,7 +65,9 @@ class Require_Plugin {
 			return;
 		}
 
-		if ( Helpers::is_hub_site() === $this->hub_only ) {
+		$should_load = Helpers::is_hub_site() === $this->hub_only;
+
+		if ( $should_load ) {
 			require_once $this->plugin_path;
 		}
 
@@ -74,7 +76,7 @@ class Require_Plugin {
 			array( $this, 'filter_code_activated_links' )
 		);
 
-		if ( Helpers::is_hub_site() === $this->hub_only ) {
+		if ( $should_load ) {
 			add_filter(
 				"plugin_action_links_{$this->plugin_file}",
 				array( $this, 'filter_code_activated_links' )
@@ -152,7 +154,7 @@ class Require_Plugin {
 			if ( ! in_array( $this->plugin_file, $plugins, true ) ) {
 				$plugins[] = $this->plugin_file;
 			}
-		} elseif ( ! isset( $plugins[ $this->plugin_file ] ) ) {
+		} elseif ( Helpers::is_hub_site() === $this->hub_only && ! isset( $plugins[ $this->plugin_file ] ) ) {
 			$plugins[ $this->plugin_file ] = time();
 		}
 
