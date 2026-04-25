@@ -10,17 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Helpers {
 
 	/**
-	 * Get an instance of this class
-	 */
-	public static function get_instance() {
-		static $instance = null;
-		if ( null === $instance ) {
-			$instance = new static();
-		}
-		return $instance;
-	}
-
-	/**
 	 * Checks if a given site ID (or the current site) is the hub site.
 	 *
 	 * @param int $site_id Optional. Site ID to check. Defaults to current site.
@@ -34,5 +23,3 @@ class Helpers {
 		return SS_MS_SSO_HUB_SITE_ID === $site_id;
 	}
 }
-
-Helpers::get_instance();
