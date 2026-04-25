@@ -37,6 +37,8 @@ class SS_MS_SSO_Client_Sites {
 	private function setup() {
 		add_filter( 'oidc_registered_clients', array( $this, 'register_clients' ) );
 		add_filter( 'option_openid_connect_generic_settings', array( $this, 'override_settings' ) );
+		add_action( 'init', array( $this, 'disable_two_factor_ui_on_clients' ) );
+		add_action( 'openid-connect-generic-update-user-using-current-claim', array( $this, 'bypass_two_factor_for_sso' ) );
 
 		// Hooks to clear the cache when sites are added, updated, or deleted.
 		add_action( 'wp_insert_site', array( $this, 'destroy_clients' ) );
@@ -114,6 +116,27 @@ class SS_MS_SSO_Client_Sites {
 		$overrides = apply_filters( 'ss_ms_sso_oidc_settings_overrides', $overrides, $blog_id );
 
 		return array_merge( $settings, $overrides );
+	}
+
+	/**
+	 * Hides the two-factor authentication UI at /wp-admin/profile.php on client sites.
+	 */
+	public function disable_two_factor_ui_on_clients() {
+		if ( ! SS_MS_SSO_Helpers::is_hub_site() && class_exists( 'Two_Factor_Core' ) ) {
+			remove_action( 'show_user_profile', array( 'Two_Factor_Core', 'user_two_factor_options' ) );
+			remove_action( 'edit_user_profile', array( 'Two_Factor_Core', 'user_two_factor_options' ) );
+			remove_action( 'personal_options_update', array( 'Two_Factor_Core', 'user_two_factor_options_update' ) );
+			remove_action( 'edit_user_profile_update', array( 'Two_Factor_Core', 'user_two_factor_options_update' ) );
+		}
+	}
+
+	/**
+	 * Bypasses two-factor authentication during an SSO login.
+	 */
+	public function bypass_two_factor_for_sso() {
+		if ( ! SS_MS_SSO_Helpers::is_hub_site() && class_exists( 'Two_Factor_Core' ) ) {
+			remove_action( 'wp_login', array( 'Two_Factor_Core', 'wp_login' ), PHP_INT_MAX );
+		}
 	}
 
 	/**
