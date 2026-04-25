@@ -46,6 +46,10 @@ Behind the scenes, this utilizes OpenID Connect to securely bridge the gap, usin
    git clone git@github.com:kingkool68/wordpress-super-simple-multisite-sso.git
    ```
 1. **Configure:** Copy the `super-simple-multisite-sso.php.example` file into the root of your `wp-content/mu-plugins/` directory, rename it to `super-simple-multisite-sso.php`, and tweak the configuration options inside.
+```
+cd wordpress-super-simple-multisite-sso
+cp super-simple-multisite-sso.php.example ../super-simple-multisite-sso.php
+```
 
 ## How does it work?
 This plugin acts as the glue between the Identity Provider (your hub site) and the Relying Parties (your client sites).
