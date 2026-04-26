@@ -2,9 +2,13 @@
 
 ## Problem
 
+![A confused user having to login multiple times to different websites](.github/images/no-sso-bad.jpg)
+
 Logging into a [WordPress Multisite](https://developer.wordpress.org/advanced-administration/multisite/) network with different domains is a clunky experience. You jump from one site to another, and you have to log in again and again every single time. It makes managing access a nightmare. And most importantly, it’s a confusing experience for your users. It shouldn't be this way.
 
 ## What if you could just log in once?
+
+![A happy user who just have to log in once to access multiple websites](.github/images/simple-sso-good.jpg)
 
 You designate one site as your central hub. When users go to another site, they seamlessly bounce to the hub, authenticate, and land right back where they started. It’s completely transparent. They authenticate once, and then have access to everything. When they log out, they log out of the entire network instantly. Simple.
 
