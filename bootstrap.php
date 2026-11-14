@@ -31,7 +31,17 @@ foreach ( $files_to_load as $file_name ) {
 	}
 }
 
-SS_MS_SSO_Require_Plugin::register( 'wp-openid-connect-server/openid-connect-server.php', true );
+/**
+ * The server plugin's folder name depends on how it was installed:
+ * - `openid-connect-server` from WordPress.org
+ * - `wp-openid-connect-server` from cloning the GitHub repo
+ * Use whichever one exists.
+ */
+$oidc_server_plugin = 'wp-openid-connect-server/openid-connect-server.php';
+if ( ! file_exists( WP_PLUGIN_DIR . '/' . $oidc_server_plugin ) ) {
+	$oidc_server_plugin = 'openid-connect-server/openid-connect-server.php';
+}
+SS_MS_SSO_Require_Plugin::register( $oidc_server_plugin, true );
 SS_MS_SSO_Require_Plugin::register( 'openid-connect-generic/openid-connect-generic.php', false );
 
 /**
