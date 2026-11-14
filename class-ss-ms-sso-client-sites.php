@@ -223,6 +223,39 @@ class SS_MS_SSO_Client_Sites {
 	}
 
 	/**
+	 * Finds the site ID a client ID belongs to.
+	 *
+	 * @param string $client_id The OIDC client ID.
+	 * @return int The site ID, or 0 if no client site matches.
+	 */
+	public static function get_site_id_from_client_id( $client_id = '' ) {
+		$client_id = (string) $client_id;
+		if ( '' === $client_id ) {
+			return 0;
+		}
+
+		$site_ids = get_sites(
+			array(
+				'number'  => 1000,
+				'deleted' => 0,
+				'fields'  => 'ids',
+			)
+		);
+
+		foreach ( $site_ids as $site_id ) {
+			$site_id = (int) $site_id;
+			if ( SS_MS_SSO_Helpers::is_hub_site( $site_id ) ) {
+				continue;
+			}
+			if ( hash_equals( static::get_client_id( $site_id ), $client_id ) ) {
+				return $site_id;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Generates a deterministic client ID for a specific site.
 	 *
 	 * @param int $site_id Optional. The site ID. Defaults to current site.
