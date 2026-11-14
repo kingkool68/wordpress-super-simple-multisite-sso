@@ -61,4 +61,14 @@ This plugin acts as the glue between the Identity Provider (your hub site) and t
 1. **The Interception:** When an unauthenticated user attempts to log in on a client site, the plugin intercepts the standard WordPress login flow and redirects the user to the designated hub site to authenticate.
 2. **The Handshake:** The user authenticates at the hub. Upon successful login, the OpenID Connect Server securely generates an authentication token signed by your private RSA key.
 3. **The Return Journey:** The user is redirected back to the client site with their token. The OpenID Connect Generic plugin validates this token against the public RSA key, confirms the user's identity, and establishes a local authenticated session.
-4. **Single Log Out:** When a user clicks "Log Out" anywhere on the network, the plugin orchestrates a global logout. It destroys the local session and pings the hub to terminate the master OpenID Connect session, ensuring the user is logged out across all mapped domains simultaneously.
+4. **Site Membership:** Users don't need to be added to the hub site to log in. Instead, when a client site sends a user to the hub, the hub checks that the user is a member of that client site (and that the site isn't archived, spammed, or deleted). Super admins can log in to any site. Use the `ss_ms_sso_user_can_sso` filter to customize who is allowed:
+   ```php
+   add_filter( 'ss_ms_sso_user_can_sso', function ( $can_sso, $user, $site_id ) {
+       // Let editors of site 2 log in to site 3 too.
+       if ( 3 === $site_id && user_can_for_site( $user, 2, 'edit_others_posts' ) ) {
+           return true;
+       }
+       return $can_sso;
+   }, 10, 3 );
+   ```
+5. **Single Log Out:** When a user clicks "Log Out" anywhere on the network, the plugin orchestrates a global logout. It destroys the local session and pings the hub to terminate the master OpenID Connect session, ensuring the user is logged out across all mapped domains simultaneously.

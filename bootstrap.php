@@ -23,6 +23,7 @@ $files_to_load = array(
 	'class-ss-ms-sso-helpers.php',
 	'class-ss-ms-sso-require-plugin.php',
 	'class-ss-ms-sso-client-sites.php',
+	'class-ss-ms-sso-hub-site.php',
 );
 foreach ( $files_to_load as $file_name ) {
 	$file = __DIR__ . '/' . $file_name;
