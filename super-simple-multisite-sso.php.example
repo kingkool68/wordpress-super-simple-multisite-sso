@@ -67,6 +67,8 @@ add_filter(
 			// 'identify_with_username'   => '0',
 			// How long (in seconds) the state parameter is valid during the OAuth flow.
 			// 'state_time_limit'         => '180',
+			// Use PKCE (S256) in the authorization code flow (1 = yes, 0 = no).
+			// 'enable_pkce'              => '1',
 			// Automatically refresh access tokens when they expire (1 = yes, 0 = no).
 			// 'token_refresh_enable'     => '1',
 			// Disable SSL certificate verification for identity provider requests (0 = verify, 1 = skip — insecure).
@@ -75,6 +77,8 @@ add_filter(
 			// 'allow_internal_idp'       => '0',
 			// Link an OIDC login to an existing WordPress user with a matching email (1 = yes, 0 = no).
 			// 'link_existing_users'      => '1',
+			// Allow linking existing accounts without a verified email or when matching by username (1 = yes, 0 = no).
+			// 'link_unverified_users'    => '0',
 			// Create a new WordPress user if no match is found during login (1 = yes, 0 = no).
 			// 'create_if_does_not_exist' => '0',
 			// Redirect the user back to the page they were on before logging in (1 = yes, 0 = no).

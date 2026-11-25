@@ -18,7 +18,7 @@ Behind the scenes, this utilizes OpenID Connect to securely bridge the gap, usin
 
 1. **Install the Auth Server:** Add the [OpenID Connect Server](https://github.com/Automattic/wp-openid-connect-server) plugin (also available on [WordPress.org](https://wordpress.org/plugins/openid-connect-server/)) to your `wp-content/plugins/` directory.
    * *Note:* This specific fork, [Add KID](https://github.com/joshbetz/wp-openid-connect-server/tree/add/kid), introduces a highly recommended security enhancement (see [PR #132](https://github.com/Automattic/wp-openid-connect-server/pull/132)) and is the preferred version for this setup.
-1. **Install the Client Plugin:** Add the [OpenID Connect Generic](https://github.com/oidc-wp/openid-connect-generic) plugin to your `wp-content/plugins/` directory.
+1. **Install the Client Plugin:** Add the [OpenID Connect Generic](https://github.com/oidc-wp/openid-connect-generic) plugin (also available on [WordPress.org](https://wordpress.org/plugins/daggerhart-openid-connect-generic/)) to your `wp-content/plugins/` directory.
 1. **Generate RSA Keys:** You need to [define RSA keys](https://github.com/Automattic/wp-openid-connect-server#define-the-rsa-keys) for secure token generation. Run the following in your terminal:
    ```bash
    openssl genrsa -out oidc.key 4096

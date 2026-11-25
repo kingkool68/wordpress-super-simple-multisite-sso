@@ -43,12 +43,23 @@ if ( ! file_exists( WP_PLUGIN_DIR . '/' . $oidc_server_plugin ) ) {
 	$oidc_server_plugin = 'openid-connect-server/openid-connect-server.php';
 }
 SS_MS_SSO_Require_Plugin::register( $oidc_server_plugin, true );
-SS_MS_SSO_Require_Plugin::register( 'openid-connect-generic/openid-connect-generic.php', false );
+
+/**
+ * The client plugin's folder name also depends on how it was installed:
+ * - `daggerhart-openid-connect-generic` from WordPress.org
+ * - `openid-connect-generic` from cloning the GitHub repo
+ * Use whichever one exists.
+ */
+$oidc_client_plugin = 'daggerhart-openid-connect-generic/openid-connect-generic.php';
+if ( ! file_exists( WP_PLUGIN_DIR . '/' . $oidc_client_plugin ) ) {
+	$oidc_client_plugin = 'openid-connect-generic/openid-connect-generic.php';
+}
+SS_MS_SSO_Require_Plugin::register( $oidc_client_plugin, false );
 
 /**
  * Injects identity claims into the OIDC user info payload.
  *
- * Ensures that the email and preferred_username claims are present for the client sites.
+ * Ensures that the email, email_verified, and preferred_username claims are present for the client sites.
  *
  * @param array   $claims The existing claims.
  * @param WP_User $user   The user object.
@@ -59,10 +70,11 @@ add_filter(
 	function ( $claims, $user ) {
 		// Ensure we have a valid user object.
 		if ( $user && ! empty( $user->user_email ) ) {
-			$claims['email'] = $user->user_email;
+			$claims['email']          = $user->user_email;
+			$claims['email_verified'] = true;
 		}
 
-		if ( ! empty( $user->user_login ) ) {
+		if ( $user && ! empty( $user->user_login ) ) {
 			$claims['preferred_username'] = $user->user_login;
 		}
 
